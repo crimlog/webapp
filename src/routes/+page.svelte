@@ -1,4 +1,23 @@
 <!-- https://github.com/tailwindtoolbox/Landing-Page -->
+<script>
+	import { MetaTags } from 'svelte-meta-tags';
+</script>
+
+<MetaTags
+	openGraph={{
+		type: 'website',
+		url: 'https://www.crimlog.org',
+		title: 'CrimLog',
+		description:
+			'CrimLog is an open-source software protocol that utilizes Web 3.0, near-field communication (NFC), and non-fungible tokens (NFTs) to create a student attendance solution that is unparalleled in the market.',
+		images: [
+			{
+				url: 'https://www.crimlog.org/images/hero.png',
+				alt: 'CrimLog Logo',
+			},
+		],
+	}}
+/>
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
 <body class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
