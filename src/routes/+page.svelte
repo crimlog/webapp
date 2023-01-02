@@ -13,10 +13,18 @@
 		images: [
 			{
 				url: 'https://www.crimlog.org/images/hero.png',
+				width: 647,
+				height: 394,
 				alt: 'CrimLog Logo',
 			},
 		],
 	}}
+	additionalMetaTags={[
+		{
+			name: 'theme-color',
+			content: '#f8262c',
+		},
+	]}
 />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
