@@ -1,14 +1,20 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@metamask/detect-provider': 2.0.0
   '@sveltejs/adapter-auto': 1.0.0
   '@sveltejs/kit': 1.0.1
   autoprefixer: 10.4.13
   postcss: 8.4.20
   svelte: 3.55.0
   svelte-meta-tags: 2.6.4
+  svelte-web3: 4.0.1
   tailwindcss: 3.2.4
   vite: 4.0.3
+
+dependencies:
+  '@metamask/detect-provider': 2.0.0
+  svelte-web3: 4.0.1
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0_@sveltejs+kit@1.0.1
@@ -223,6 +229,11 @@ packages:
   /@jridgewell/sourcemap-codec/1.4.14:
     resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}
     dev: true
+
+  /@metamask/detect-provider/2.0.0:
+    resolution: {integrity: sha512-sFpN+TX13E9fdBDh9lvQeZdJn4qYoRb/6QF2oZZK/Pn559IhCFacPMU1rMuqyXoFQF3JSJfii2l98B87QDPeCQ==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -894,10 +905,20 @@ packages:
       - typescript
     dev: true
 
+  /svelte-proxied-store/1.1.5:
+    resolution: {integrity: sha512-1hJyVy5AJigC8l2RLs9xIa7qdm10P/7juzAS/gW8zSPEs9XxT30i3XLMYxmd7NKjwqrOYo01dOfMQdz8eGgEOw==}
+    dev: false
+
+  /svelte-web3/4.0.1:
+    resolution: {integrity: sha512-AwAPkBb7oQ2qS74iPXv93mBp07926xCzQmixaz3MfM1oUaaq8g79wWc4+UF8cL2yvdorOxb4/RW2fvHr6u9qyA==}
+    dependencies:
+      svelte: 3.55.0
+      svelte-proxied-store: 1.1.5
+    dev: false
+
   /svelte/3.55.0:
     resolution: {integrity: sha512-uGu2FVMlOuey4JoKHKrpZFkoYyj0VLjJdz47zX5+gVK5odxHM40RVhar9/iK2YFRVxvfg9FkhfVlR0sjeIrOiA==}
     engines: {node: '>= 8'}
-    dev: true
 
   /tailwindcss/3.2.4_postcss@8.4.20:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}
