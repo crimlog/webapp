@@ -1,9 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import { detectEthereum, signInWithMetaMask } from '../util/auth';
+	import { signInWithMetaMask } from '../util/auth';
 
 	onMount(async () => {
-		await detectEthereum();
 		console.log('selectedAddress', ethereum.selectedAddress);
 	});
 </script>

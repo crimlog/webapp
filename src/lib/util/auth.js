@@ -1,8 +1,25 @@
 import detectEthereumProvider from '@metamask/detect-provider';
+import { getContextClient, gql } from '@urql/svelte';
 
 let ethereum;
 
-const getNonce = async () => 'f954a67c-9c5a-41eb-809a-0d1f066be94b';
+const getNonce = async function (walletAddress) {
+	const res = await getContextClient()
+		.query(
+			gql`
+				query ProfessorNonce($walletAddress: String!) {
+					professorNonce(walletAddress: $walletAddress)
+				}
+			`,
+			{ walletAddress },
+			{ requestPolicy: 'network-only' }
+		)
+		.toPromise();
+
+	// handle errors
+	console.log('getNonce', res);
+	return res.data.professorNonce;
+};
 
 export const detectEthereum = async function () {
 	const provider = await detectEthereumProvider();
@@ -23,12 +40,28 @@ export const signInWithMetaMask = async function () {
 
 	const walletAddress = accounts[0];
 
-	const nonce = await getNonce();
+	const nonce = await getNonce(walletAddress);
 
-	const signedData = await ethereum.request({
+	const signature = await ethereum.request({
 		method: 'personal_sign',
 		params: [`Sign message to login to CrimLog: ${nonce}`, walletAddress],
 	});
 
-	console.log('signedData', signedData);
+	console.log('signedData', signature);
+
+	const res = await getContextClient()
+		.mutation(
+			gql`
+				mutation Login($walletAddress: String!, $signature: String!) {
+					professorLogin(walletAddress: $walletAddress, signature: $signature)
+				}
+			`,
+			{ walletAddress, signature },
+			{ requestPolicy: 'network-only' }
+		)
+		.toPromise();
+	console.log('signInWithMetaMask', res);
+
+	// handle errors
+	return res.data.professorLogin;
 };
