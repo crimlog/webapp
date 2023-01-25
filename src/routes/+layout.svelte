@@ -1,13 +1,10 @@
 <script>
-	import { createClient, setContextClient } from '@urql/svelte';
+	import { setContextClient } from '@urql/svelte';
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import { detectEthereum } from '../lib/util/auth';
+	import { detectEthereum, urql_client } from '../lib/util/auth';
 
-	const client = createClient({
-		url: `http://localhost:3000/graphql`,
-	});
-	setContextClient(client);
+	setContextClient(urql_client);
 
 	onMount(async () => {
 		await detectEthereum();

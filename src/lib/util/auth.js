@@ -1,10 +1,16 @@
 import detectEthereumProvider from '@metamask/detect-provider';
-import { getContextClient, gql } from '@urql/svelte';
+import { createClient, gql } from '@urql/svelte';
+import { get } from 'svelte/store';
+import { jwt, professorStore } from '../../stores';
+
+export const urql_client = createClient({
+	url: 'http://localhost:3000/graphql',
+});
 
 let ethereum;
 
 const getNonce = async function (walletAddress) {
-	const res = await getContextClient()
+	const res = await urql_client
 		.query(
 			gql`
 				query ProfessorNonce($walletAddress: String!) {
@@ -49,7 +55,7 @@ export const signInWithMetaMask = async function () {
 
 	console.log('signedData', signature);
 
-	const res = await getContextClient()
+	const res = await urql_client
 		.mutation(
 			gql`
 				mutation Login($walletAddress: String!, $signature: String!) {
@@ -63,5 +69,37 @@ export const signInWithMetaMask = async function () {
 	console.log('signInWithMetaMask', res);
 
 	// handle errors
-	return res.data.professorLogin;
+	const new_jwt = res.data.professorLogin;
+	jwt.set(new_jwt);
+	professorStore(); // refresh store for the frontend
+
+	return new_jwt;
+};
+
+export const getProfessor = async function () {
+	const res = await urql_client
+		.query(
+			gql`
+				query ProfessorSelf {
+					professorSelf {
+						first
+						last
+					}
+				}
+			`,
+			{},
+			{
+				requestPolicy: 'network-only',
+				fetchOptions: {
+					headers: {
+						authorization: `Bearer ${get(jwt)}`,
+					},
+				},
+			}
+		)
+		.toPromise();
+
+	// handle errors
+	console.log('getProfessor', res);
+	return res.data.professorSelf;
 };
