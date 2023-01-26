@@ -18,7 +18,7 @@ const getNonce = async function (walletAddress) {
 				}
 			`,
 			{ walletAddress },
-			{ requestPolicy: 'network-only' }
+			{ requestPolicy: 'network-only' },
 		)
 		.toPromise();
 
@@ -63,7 +63,7 @@ export const signInWithMetaMask = async function () {
 				}
 			`,
 			{ walletAddress, signature },
-			{ requestPolicy: 'network-only' }
+			{ requestPolicy: 'network-only' },
 		)
 		.toPromise();
 	console.log('signInWithMetaMask', res);
@@ -95,7 +95,7 @@ export const getProfessor = async function () {
 						authorization: `Bearer ${get(jwt)}`,
 					},
 				},
-			}
+			},
 		)
 		.toPromise();
 
