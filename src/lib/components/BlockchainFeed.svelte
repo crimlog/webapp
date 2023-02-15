@@ -1,5 +1,6 @@
 <script>
 	import { attendanceRecordStore } from '$stores';
+	import { DateTime } from 'luxon';
 
 	$: attendanceRecords = attendanceRecordStore();
 </script>
@@ -25,7 +26,11 @@
 					.slice(0, 5) as { student, timestamp, course, professor }}
 					<tr>
 						<th>{student.first} {student.last}</th>
-						<td>{timestamp}</td>
+						<td
+							>{DateTime.fromMillis(timestamp).toLocaleString(
+								DateTime.DATETIME_SHORT,
+							)}</td
+						>
 						<td>{course.code}</td>
 						<td>{professor.first} {professor.last}</td>
 						<!-- <td>18-120</td> -->
