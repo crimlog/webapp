@@ -24,3 +24,31 @@ export const professorStore = (_jwt = jwt.get()) =>
 			},
 		},
 	});
+
+export const attendanceRecordStore = () =>
+	queryStore({
+		client: urql_client,
+		query: gql`
+			query AttendanceRecords {
+				attendanceRecords {
+					id
+					student {
+						first
+						last
+						walletAddress
+					}
+					professor {
+						first
+						last
+						walletAddress
+					}
+					course {
+						code
+						name
+					}
+					timestamp
+				}
+			}
+		`,
+		requestPolicy: 'network-only',
+	});
