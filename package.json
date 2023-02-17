@@ -28,6 +28,7 @@
 		"@metamask/detect-provider": "2.0.0",
 		"@urql/svelte": "3.0.3",
 		"luxon": "3.2.1",
-		"svelte-web3": "4.0.1"
+		"svelte-web3": "4.0.1",
+		"theme-change": "2.3.0"
 	}
 }
