@@ -1,8 +1,18 @@
 <script>
 	import { attendanceRecordStore } from '$stores';
 	import { DateTime } from 'luxon';
+	import { onMount } from 'svelte';
 
 	$: attendanceRecords = attendanceRecordStore();
+
+	const refetch = async () => {
+		await attendanceRecordStore();
+		setTimeout(refetch, 3000);
+	};
+
+	onMount(() => {
+		refetch();
+	});
 </script>
 
 {#if $attendanceRecords.fetching === true}
@@ -21,11 +31,11 @@
 			</thead>
 			<tbody>
 				{#each $attendanceRecords?.data?.attendanceRecords
-					?.flatMap((e) => [e, e, e, e, e, e, e, e, e, e])
+					// ?.flatMap((e) => [e, e, e, e, e, e, e, e, e, e])
 					?.sort((a, b) => b.timestamp - a.timestamp)
 					.slice(0, 5) as { student, timestamp, course, professor }}
 					<tr>
-						<th>{student.first} {student.last}</th>
+						<td>{student.first} {student.last}</td>
 						<td
 							>{DateTime.fromMillis(timestamp).toLocaleString(
 								DateTime.DATETIME_SHORT,
