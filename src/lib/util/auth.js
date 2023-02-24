@@ -1,10 +1,11 @@
+import { PUBLIC_API_URL } from '$env/static/public';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { createClient, gql } from '@urql/svelte';
 import { get } from 'svelte/store';
 import { jwt, professorStore } from '../../stores';
 
 export const urql_client = createClient({
-	url: 'http://localhost:3000/graphql',
+	url: PUBLIC_API_URL,
 });
 
 let ethereum;
