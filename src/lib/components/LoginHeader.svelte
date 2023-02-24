@@ -5,7 +5,7 @@
 	$: professor = professorStore();
 </script>
 
-<div class="flex flex-col justify-center pr-4">
+<div class="flex flex-col justify-center px-4">
 	{#if $professor.fetching === true}
 		<button class="btn btn-ghost btn-lg text-primary loading" />
 	{:else if $professor?.data?.professorSelf?.first}
