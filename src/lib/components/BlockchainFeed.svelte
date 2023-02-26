@@ -5,6 +5,7 @@
 
 	$: attendanceRecords = attendanceRecordStore();
 	let activePage = 1;
+	$: pageCount = Math.ceil(($attendanceRecords?.data?.attendanceRecords?.length ?? 0) / 5);
 
 	const setActivePage = (pageNo) => {
 		activePage = pageNo;
@@ -54,13 +55,15 @@
 			</tbody>
 		</table>
 		<div class="btn-group float-right mt-2">
-			{#each Array(Math.ceil($attendanceRecords?.data?.attendanceRecords?.length / 5)) as _, i}
-				<button
-					class="btn btn-sm bg-neutral"
-					class:btn-active={i + 1 === activePage}
-					on:click={() => setActivePage(i + 1)}>{i + 1}</button
-				>
-			{/each}
+			{#if pageCount > 1}
+				{#each Array(pageCount) as _, i}
+					<button
+						class="btn btn-sm bg-neutral"
+						class:btn-active={i + 1 === activePage}
+						on:click={() => setActivePage(i + 1)}>{i + 1}</button
+					>
+				{/each}
+			{/if}
 		</div>
 	</div>
 {/if}
