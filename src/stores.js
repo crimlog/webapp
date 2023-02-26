@@ -62,6 +62,7 @@ export const attendanceQueueByCoureIdStore = (courseId) =>
 					id
 					status
 					students {
+						id
 						first
 						last
 						walletAddress
