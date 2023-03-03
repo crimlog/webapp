@@ -9,7 +9,7 @@
 	{#if $professor.fetching === true}
 		<button class="btn btn-ghost btn-lg text-primary loading" />
 	{:else if $professor?.data?.professorSelf?.first}
-		<h1 class="text-2xl text-center">
+		<h1 class="text-2xl text-center text-neutral">
 			{$professor.data.professorSelf.first}
 			{$professor.data.professorSelf.last}
 		</h1>
