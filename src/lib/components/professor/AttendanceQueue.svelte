@@ -36,7 +36,7 @@
 			console.error(e);
 		} finally {
 			removing.set(studentId, false);
-			// e.target.classList.remove('loading');
+			e.target.classList.remove('loading');
 		}
 	};
 
