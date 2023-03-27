@@ -52,3 +52,24 @@ export const attendanceRecordStore = () =>
 		`,
 		requestPolicy: 'network-only',
 	});
+
+export const attendanceQueueByCoureIdStore = (courseId) =>
+	queryStore({
+		client: urql_client,
+		query: gql`
+			query AttendanceQueueByCourseId($courseId: ObjectID!) {
+				attendanceQueueByCourseId(courseId: $courseId) {
+					id
+					status
+					students {
+						id
+						first
+						last
+						walletAddress
+					}
+				}
+			}
+		`,
+		requestPolicy: 'network-only',
+		variables: { courseId },
+	});
