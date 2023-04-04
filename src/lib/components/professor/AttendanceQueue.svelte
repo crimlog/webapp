@@ -10,8 +10,9 @@
 	$: pageCount = Math.ceil(
 		($attendanceQueue?.data?.attendanceQueueByCourseId?.students?.length ?? 0) / 5,
 	);
-	let removing = new Map(); //list of students being removed to prevent double clicks
-	let minting = new Map(); //list of students being minted to prevent double clicks
+	const removing = new Map(); //list of students being removed to prevent double clicks
+	const minting = new Map(); //list of students being minted to prevent double clicks
+	const minted = new Set(); //list of students that have been minted
 
 	const setActivePage = (pageNo) => {
 		activePage = pageNo;
@@ -22,7 +23,7 @@
 		setTimeout(refetch, 3000);
 	};
 
-	const mintStudentNft = async (studentId) => {
+	const mintStudentNft = (studentId) => async (e) => {
 		try {
 			if (minting.get(studentId) === true) return console.log('already minting');
 			minting.set(studentId, true);
@@ -31,6 +32,10 @@
 				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
 				studentId,
 			});
+			minted.add(studentId);
+			e.target.parentElement
+				.querySelectorAll('button')
+				.forEach((btn) => btn.classList.add('btn-disabled'));
 		} catch (e) {
 			console.error(e);
 		} finally {
@@ -83,7 +88,7 @@
 						<td class="w-8">
 							<button
 								class="btn btn-sm h-9 btn-info mx-3"
-								on:click|self={() => mintStudentNft(id)}>Mint</button
+								on:click|self={mintStudentNft(id)}>Mint</button
 							>
 							<button
 								class="btn btn-sm h-9 btn-error"
