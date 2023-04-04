@@ -28,19 +28,26 @@
 			if (minting.get(studentId) === true) return console.log('already minting');
 			minting.set(studentId, true);
 
+			// show spinner on button
+			e.target.classList.add('loading');
+			e.target.textContent = '';
+
 			await attendanceQueueMintStudent({
 				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
 				studentId,
 			});
+
 			minted.add(studentId);
 			e.target.parentElement
 				.querySelectorAll('button')
 				.forEach((btn) => btn.classList.add('btn-disabled'));
+			e.target.textContent = 'Minted';
 		} catch (e) {
+			e.target.textContent = 'Mint';
 			console.error(e);
 		} finally {
 			minting.set(studentId, false);
-			// e.target.classList.remove('loading');
+			e.target.classList.remove('loading');
 		}
 	};
 
@@ -48,8 +55,10 @@
 		try {
 			if (removing.get(studentId) === true) return console.log('already removing');
 			removing.set(studentId, true);
-			// e.target.classList.add('loading');
-			// e.target.textContent = '';
+
+			// show spinner on button
+			e.target.classList.add('loading');
+			e.target.textContent = '';
 
 			await removeStudentFromAttendanceQueue({
 				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
@@ -59,7 +68,8 @@
 			console.error(e);
 		} finally {
 			removing.set(studentId, false);
-			// e.target.classList.remove('loading');
+			e.target.classList.remove('loading');
+			e.target.textContent = 'Remove';
 		}
 	};
 
