@@ -1,5 +1,5 @@
 <script>
-	import { removeStudentFromAttendanceQueue } from '$lib/util/api';
+	import { attendanceQueueMintStudent, removeStudentFromAttendanceQueue } from '$lib/util/api';
 	import { attendanceQueueByCoureIdStore } from '$stores';
 	import { onMount } from 'svelte';
 
@@ -11,6 +11,7 @@
 		($attendanceQueue?.data?.attendanceQueueByCourseId?.students?.length ?? 0) / 5,
 	);
 	let removing = new Map(); //list of students being removed to prevent double clicks
+	let minting = new Map(); //list of students being minted to prevent double clicks
 
 	const setActivePage = (pageNo) => {
 		activePage = pageNo;
@@ -21,12 +22,29 @@
 		setTimeout(refetch, 3000);
 	};
 
+	const mintStudentNft = async (studentId) => {
+		try {
+			if (minting.get(studentId) === true) return console.log('already minting');
+			minting.set(studentId, true);
+
+			await attendanceQueueMintStudent({
+				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
+				studentId,
+			});
+		} catch (e) {
+			console.error(e);
+		} finally {
+			minting.set(studentId, false);
+			// e.target.classList.remove('loading');
+		}
+	};
+
 	const removeFromQueue = (studentId) => async (e) => {
 		try {
 			if (removing.get(studentId) === true) return console.log('already removing');
 			removing.set(studentId, true);
-			e.target.classList.add('loading');
-			e.target.textContent = '';
+			// e.target.classList.add('loading');
+			// e.target.textContent = '';
 
 			await removeStudentFromAttendanceQueue({
 				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
@@ -36,7 +54,7 @@
 			console.error(e);
 		} finally {
 			removing.set(studentId, false);
-			e.target.classList.remove('loading');
+			// e.target.classList.remove('loading');
 		}
 	};
 
@@ -63,7 +81,10 @@
 						<td>{first}</td>
 						<td>{last}</td>
 						<td class="w-8">
-							<button class="btn btn-sm h-9 btn-info btn-disabled mx-3">Mint</button>
+							<button
+								class="btn btn-sm h-9 btn-info mx-3"
+								on:click|self={() => mintStudentNft(id)}>Mint</button
+							>
 							<button
 								class="btn btn-sm h-9 btn-error"
 								on:click|self={removeFromQueue(id)}>Remove</button
