@@ -1,5 +1,5 @@
 <script>
-	import { removeStudentFromAttendanceQueue } from '$lib/util/api';
+	import { attendanceQueueMintStudent, removeStudentFromAttendanceQueue } from '$lib/util/api';
 	import { attendanceQueueByCoureIdStore } from '$stores';
 	import { onMount } from 'svelte';
 
@@ -10,7 +10,9 @@
 	$: pageCount = Math.ceil(
 		($attendanceQueue?.data?.attendanceQueueByCourseId?.students?.length ?? 0) / 5,
 	);
-	let removing = new Map(); //list of students being removed to prevent double clicks
+	const removing = new Map(); //list of students being removed to prevent double clicks
+	const minting = new Map(); //list of students being minted to prevent double clicks
+	const minted = new Set(); //list of students that have been minted
 
 	const setActivePage = (pageNo) => {
 		activePage = pageNo;
@@ -21,10 +23,40 @@
 		setTimeout(refetch, 3000);
 	};
 
+	const mintStudentNft = (studentId) => async (e) => {
+		try {
+			if (minting.get(studentId) === true) return console.log('already minting');
+			minting.set(studentId, true);
+
+			// show spinner on button
+			e.target.classList.add('loading');
+			e.target.textContent = '';
+
+			await attendanceQueueMintStudent({
+				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
+				studentId,
+			});
+
+			minted.add(studentId);
+			e.target.parentElement
+				.querySelectorAll('button')
+				.forEach((btn) => btn.classList.add('btn-disabled'));
+			e.target.textContent = 'Minted';
+		} catch (e) {
+			e.target.textContent = 'Mint';
+			console.error(e);
+		} finally {
+			minting.set(studentId, false);
+			e.target.classList.remove('loading');
+		}
+	};
+
 	const removeFromQueue = (studentId) => async (e) => {
 		try {
 			if (removing.get(studentId) === true) return console.log('already removing');
 			removing.set(studentId, true);
+
+			// show spinner on button
 			e.target.classList.add('loading');
 			e.target.textContent = '';
 
@@ -37,6 +69,7 @@
 		} finally {
 			removing.set(studentId, false);
 			e.target.classList.remove('loading');
+			e.target.textContent = 'Remove';
 		}
 	};
 
@@ -63,7 +96,10 @@
 						<td>{first}</td>
 						<td>{last}</td>
 						<td class="w-8">
-							<button class="btn btn-sm h-9 btn-info btn-disabled mx-3">Mint</button>
+							<button
+								class="btn btn-sm h-9 btn-info mx-3"
+								on:click|self={mintStudentNft(id)}>Mint</button
+							>
 							<button
 								class="btn btn-sm h-9 btn-error"
 								on:click|self={removeFromQueue(id)}>Remove</button
