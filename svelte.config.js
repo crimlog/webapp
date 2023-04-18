@@ -6,13 +6,11 @@ import { resolve } from 'node:path';
 const config = {
 	kit: {
 		adapter: adapter(),
-	},
-	preprocess: vitePreprocess(),
-	kit: {
 		alias: {
 			$stores: resolve(process.cwd(), './src/stores'),
 		},
 	},
+	preprocess: vitePreprocess(),
 };
 
 export default config;
