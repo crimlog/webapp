@@ -53,3 +53,22 @@ export const attendanceQueueMintStudent = async function ({ queueId, studentId }
 	// handle errors
 	return res.data.attendanceQueueMintStudent;
 };
+
+export const attendanceQueueMint = async function ({ queueId }) {
+	const res = await urql_client
+		.mutation(
+			gql`
+				mutation ($queueId: ObjectID!) {
+					attendanceQueueMint(queueId: $queueId) {
+                        id
+                    }
+				}
+			`,
+			{ queueId },
+			{ requestPolicy: 'network-only' },
+		)
+		.toPromise();
+
+	// handle errors
+	return res.data.attendanceQueueMint;
+};

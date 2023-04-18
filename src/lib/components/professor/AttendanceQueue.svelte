@@ -1,5 +1,9 @@
 <script>
-	import { attendanceQueueMintStudent, removeStudentFromAttendanceQueue } from '$lib/util/api';
+	import {
+		attendanceQueueMint,
+		attendanceQueueMintStudent,
+		removeStudentFromAttendanceQueue,
+	} from '$lib/util/api';
 	import { attendanceQueueByCoureIdStore } from '$stores';
 	import { onMount } from 'svelte';
 
@@ -51,6 +55,36 @@
 		}
 	};
 
+	const mintEntireQueue = async function (e) {
+		const ALL_MINTING_KEY = '_all';
+		try {
+			if (minting.get(ALL_MINTING_KEY) === true)
+				return console.log('already minting for all');
+			minting.set(ALL_MINTING_KEY, true);
+			// show spinner on button
+			e.target.classList.add('loading');
+			// e.target.textContent = '';
+
+			// set all other mint/remove btns to disabled
+			document
+				.querySelectorAll('.btn-mint, .btn-remove')
+				.forEach((btn) => btn.classList.add('btn-disabled'));
+
+			await attendanceQueueMint({
+				queueId: $attendanceQueue?.data?.attendanceQueueByCourseId?.id,
+			});
+			//wait 1 second
+			// await new Promise((resolve) => setTimeout(resolve, 1000));
+		} catch (e) {
+			// e.target.textContent = 'Mint';
+			console.error(e);
+		} finally {
+			minting.set(ALL_MINTING_KEY, false);
+			e.target.classList.remove('loading');
+			e.target.classList.add('btn-disabled');
+		}
+	};
+
 	const removeFromQueue = (studentId) => async (e) => {
 		try {
 			if (removing.get(studentId) === true) return console.log('already removing');
@@ -82,6 +116,11 @@
 	<button class="btn btn-ghost btn-lg text-primary loading" />
 {:else}
 	<div class="max-w-full">
+		<div>
+			<p class="text-2xl text-center text-neutral my-4">
+				Queue status: {$attendanceQueue?.data?.attendanceQueueByCourseId?.status}
+			</p>
+		</div>
 		<table class="table w-[60rem]">
 			<thead>
 				<tr>
@@ -97,11 +136,11 @@
 						<td>{last}</td>
 						<td class="w-8">
 							<button
-								class="btn btn-sm h-9 btn-info mx-3"
+								class="btn btn-sm h-9 btn-info mx-3 btn-mint"
 								on:click|self={mintStudentNft(id)}>Mint</button
 							>
 							<button
-								class="btn btn-sm h-9 btn-error"
+								class="btn btn-sm h-9 btn-error btn-remove"
 								on:click|self={removeFromQueue(id)}>Remove</button
 							>
 						</td>
@@ -119,6 +158,11 @@
 					>
 				{/each}
 			{/if}
+		</div>
+		<div class="mt-4 text-center">
+			<button class="btn btn-sm h-9 btn-info mx-3" on:click|self={mintEntireQueue}
+				>Mint All</button
+			>
 		</div>
 	</div>
 {/if}
