@@ -1,6 +1,8 @@
 <!-- https://github.com/tailwindtoolbox/Landing-Page -->
 <script>
 	import { MetaTags } from 'svelte-meta-tags';
+
+	let theme = localStorage.getItem('theme');
 </script>
 
 <MetaTags
@@ -28,9 +30,9 @@
 />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
-<body class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
+<body class="leading-normal tracking-normal" style="font-family: 'Source Sans Pro', sans-serif;">
 	<!--Nav-->
-	<nav id="header" class="fixed w-full z-30 top-0 text-white">
+	<!-- <nav id="header" class="fixed w-full z-30 top-0 text-white">
 		<div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
 			<div class="pl-4 flex items-center">
 				<a
@@ -79,20 +81,24 @@
 					Action
 				</button>
 			</div> -->
-		</div>
+	<!-- </div>
 		<hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
-	</nav>
+	</nav> -->
 	<!--Hero-->
 	<div class="pt-24">
 		<div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
 			<!--Left Col-->
-			<div class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+			<div
+				class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left"
+			>
 				<p class="uppercase tracking-loose w-full">CrimLog Software</p>
-				<h1 class="my-4 text-5xl font-bold leading-tight">The Attendance Solution of the Future!</h1>
+				<h1 class="my-4 text-5xl font-bold leading-tight">
+					The Attendance Solution of the Future!
+				</h1>
 				<p class="leading-normal text-2xl mb-8">
-					CrimLog is an open-source software protocol that utilizes Web 3.0, near-field communication (NFC),
-					and non-fungible tokens (NFTs) to create a student attendance solution that is unparalleled in the
-					market
+					CrimLog is an open-source software protocol that utilizes Web 3.0, near-field
+					communication (NFC), and non-fungible tokens (NFTs) to create a student
+					attendance solution that is unparalleled in the market
 				</p>
 				<!-- <button
 					class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
@@ -663,62 +669,65 @@
 		</g>
 	</svg>
 	<section class="container mx-auto text-center py-6 mb-12">
-		<h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">Learn More</h2>
+		<h2 class="w-full my-2 text-5xl font-bold leading-tight text-center">Learn More</h2>
 		<div class="w-full mb-4">
-			<div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t" />
+			<div class="h-1 mx-auto bg-neutral w-1/6 opacity-25 my-0 py-0 rounded-t" />
 		</div>
 		<h3 class="my-4 text-3xl leading-tight">Check out our GitHub!</h3>
 		<a href="https://github.com/crimlog/">
 			<button
-				class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+				class="mx-auto lg:mx-0 hover:underline bg-accent font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
 			>
 				View!
 			</button>
 		</a>
 	</section>
 	<!--Footer-->
-	<footer class="bg-white">
+	<footer class="">
 		<div class="container mx-auto px-8">
 			<div class="w-full flex flex-col md:flex-row py-6">
-				<div class="flex-1 mb-6 text-zinc-200">
-					<a class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+				<div class="flex-1 mb-6">
+					<a
+						class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+						href="#"
+					>
 						<img class="h-28 fill-current inline" src="/images/hero.svg" />
 					</a>
 				</div>
 				<div class="flex-1">
-					<p class="uppercase text-gray-500 md:mb-6">Links</p>
+					<p class="uppercase md:mb-6">Links</p>
 					<ul class="list-reset mb-6">
 						<li class="mt-2 inline-block mr-2 md:block md:mr-0">
 							<a
 								href="https://github.com/crimlog/"
-								class="no-underline hover:underline text-gray-800 hover:text-pink-500">GitHub</a
+								class="no-underline hover:underline hover:text-pink-500">GitHub</a
 							>
 						</li>
 					</ul>
 				</div>
 				<div class="flex-1">
-					<p class="uppercase text-gray-500 md:mb-6">Social</p>
+					<p class="uppercase md:mb-6">Social</p>
 					<ul class="list-reset mb-6">
 						<li class="mt-2 inline-block mr-2 md:block md:mr-0">
 							<a
 								href="https://www.linkedin.com/in/melanie-spence-dev/"
-								class="no-underline hover:underline text-gray-800 hover:text-pink-500">Linkedin</a
+								class="no-underline hover:underline hover:text-pink-500">Linkedin</a
 							>
 						</li>
 					</ul>
 				</div>
 				<div class="flex-1">
-					<p class="uppercase text-gray-500 md:mb-6">Company</p>
+					<p class="uppercase md:mb-6">Company</p>
 					<ul class="list-reset mb-6">
 						<li class="mt-2 inline-block mr-2 md:block md:mr-0">
-							<a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500"
+							<a href="#" class="no-underline hover:underline hover:text-pink-500"
 								>About Us</a
 							>
 						</li>
 						<li class="mt-2 inline-block mr-2 md:block md:mr-0">
 							<a
 								href="mailto:crimlogllc@gmail.com"
-								class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contact</a
+								class="no-underline hover:underline hover:text-pink-500">Contact</a
 							>
 						</li>
 					</ul>
@@ -727,9 +736,3 @@
 		</div>
 	</footer>
 </body>
-
-<style>
-	.gradient {
-		background: #000;
-	}
-</style>
